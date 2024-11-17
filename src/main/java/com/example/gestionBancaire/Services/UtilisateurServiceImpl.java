@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -30,7 +31,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         int numeroCompte = 10_000_000 + rand.nextInt(90_000_000);
         Compte compte = new Compte();
         compte.setNumeroCompte(numeroCompte);
-        compte.setSolde(20);
+        compte.setSolde(2000);
         compte.setEtat(true);
         compte.setUtilisateur(utilisateur1);
         repoCompte.save(compte);
@@ -85,4 +86,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         }
         return utilisateur;
     }
+
+    @Override
+    public List<Utilisateur> FindAllUser() {
+        return repoUtilisateur.findAll();
+    }
+
+    @Override
+    public void deleteUser(Integer id) {repoUtilisateur.deleteById(id);}
+
 }

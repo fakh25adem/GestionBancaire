@@ -5,6 +5,7 @@ import com.example.gestionBancaire.Models.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -12,4 +13,6 @@ public interface RepoCompte extends JpaRepository<Compte, Integer> {
 
     Optional<Compte> findBynumeroCompte(int numeroCompte);
 
+
+    List<Compte> findByUtilisateur(Optional<Utilisateur> user);
 }
