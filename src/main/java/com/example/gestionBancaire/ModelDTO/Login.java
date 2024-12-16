@@ -1,4 +1,4 @@
-package com.example.Client.Dto;
+package com.example.gestionBancaire.ModelDTO;
 
 import lombok.Data;
 import lombok.Getter;
@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Login {
-    private String email;
+    private String nom;
     private String mdp;
 }

@@ -1,6 +1,5 @@
-package com.example.Client.ServiceAuth;
-
-import com.example.Client.Model.Personne;
+package com.example.gestionBancaire.ServiceAuth;
+import com.example.gestionBancaire.Models.Utilisateur;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,11 +16,8 @@ public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
-
-    private String username;
+    private String nom;
     private String prenom;
-    private String email;
-
     @JsonIgnore
     private String password;
 
@@ -29,15 +25,14 @@ public class UserDetailsImpl implements UserDetails {
 
 
 
-    public static UserDetailsImpl build(Personne personne) {
+    public static UserDetailsImpl build(Utilisateur user) {
         List<GrantedAuthority> authorities = (Collections.singletonList(new SimpleGrantedAuthority
-                (personne.getRole().getRole())));
+                (user.getRole().getRole())));
         return new UserDetailsImpl(
-                personne.getId_personne(),
-                personne.getNom(),
-                personne.getPrenom(),
-                personne.getEmail(),
-                personne.getMdp(),
+                user.getId_user(),
+                user.getNom(),
+                user.getPrenom(),
+                user.getPassword(),
                 authorities);
     }
 
@@ -45,6 +40,11 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
     }
 
     @Override

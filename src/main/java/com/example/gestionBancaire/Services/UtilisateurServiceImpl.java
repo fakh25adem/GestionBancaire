@@ -8,6 +8,7 @@ import com.example.gestionBancaire.Reposotiry.RepoCompte;
 import com.example.gestionBancaire.Reposotiry.RepoUtilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import java.util.List;
@@ -20,12 +21,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     private RepoUtilisateur repoUtilisateur;
     @Autowired
     private RepoCompte repoCompte;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Utilisateur creer(Utilisateur utilisateur) {
         Role role = new Role();
         role.setId(2);
         utilisateur.setRole(role);
+        //System.out.println(utilisateur.getPassword());
+        utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         Utilisateur utilisateur1= repoUtilisateur.save(utilisateur);
         Random rand = new Random();
         int numeroCompte = 10_000_000 + rand.nextInt(90_000_000);

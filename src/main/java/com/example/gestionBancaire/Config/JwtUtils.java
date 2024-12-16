@@ -1,6 +1,6 @@
-package com.example.Client.Config;
+package com.example.gestionBancaire.Config;
 
-import com.example.Client.ServiceAuth.UserDetailsImpl;
+import com.example.gestionBancaire.ServiceAuth.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +13,10 @@ import java.util.Date;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${adem.app.jwtSecret}")
+    @Value("jwtSecret")
     private String jwtSecret;
 
-    @Value("${adem.app.jwtExpirationMs}")
+    @Value("86400000")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {
@@ -24,8 +24,7 @@ public class JwtUtils {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         return Jwts.builder()
-                .setSubject((userPrincipal.getEmail()))
-                .claim("nom", userPrincipal.getUsername())
+                .setSubject((userPrincipal.getNom()))
                 .claim("prenom", userPrincipal.getPrenom())
                 .claim("role",userPrincipal.getAuthorities())
                 .setIssuedAt(new Date())
