@@ -6,11 +6,11 @@ import com.example.gestionBancaire.Services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/compte")
 public class ControllerViewCompte {
@@ -29,4 +29,93 @@ public class ControllerViewCompte {
         CompteService.desactiverCompte(numeroCompte);
         return "redirect:/compte/all";
     }
+    @GetMapping("/versementForm")
+    public String showVersementForm(Model model) {
+        // Récupérer la liste des comptes depuis le service
+        List<Compte> comptes = repoCompte.findAll();
+
+
+        // Ajouter la liste des comptes au modèle pour affichage dans le formulaire
+        model.addAttribute("comptes", comptes);
+
+        return "versementForm"; // Nom du fichier HTML (sans extension)
+    }
+    @PostMapping("/virementAdd")
+    public String updateSoldeVirement(
+            @RequestParam("numeroCompte1") int numeroCompte1,
+            @RequestParam("numeroCompte2") int numeroCompte2,
+            @RequestParam("montant") double montant,
+            Model model) {
+        try {
+            // Rechercher le compte source
+            Optional<Compte> optionalCompteSource = repoCompte.findBynumeroCompte(numeroCompte1);
+            // Rechercher le compte destination
+            Optional<Compte> optionalCompteDestination = repoCompte.findBynumeroCompte(numeroCompte2);
+
+            if (optionalCompteSource.isPresent() && optionalCompteDestination.isPresent()) {
+                Compte compteSource = optionalCompteSource.get();
+                Compte compteDestination = optionalCompteDestination.get();
+
+                // Vérification que le solde du compte source est suffisant
+                if (compteSource.getSolde() >= montant) {
+                    // Mise à jour des soldes
+                    compteSource.setSolde(compteSource.getSolde() - montant);
+                    compteDestination.setSolde(compteDestination.getSolde() + montant);
+
+                    // Sauvegarder les modifications
+                    repoCompte.save(compteSource);
+                    repoCompte.save(compteDestination);
+
+                } else {
+                    model.addAttribute("message", "Erreur : Solde insuffisant sur le compte source.");
+                }
+            } else {
+                model.addAttribute("message", "Erreur : L'un des comptes n'existe pas.");
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("message", "Une erreur est survenue : " + e.getMessage());
+        }
+
+        return "redirect:/compte/all"; // Redirection vers la liste des comptes ou une vue appropriée
+    }
+
+    @GetMapping("/virementForm")
+    public String showVirementForm(Model model) {
+        // Récupérer la liste des comptes depuis le service
+        List<Compte> comptes = repoCompte.findAll();
+
+
+        // Ajouter la liste des comptes au modèle pour affichage dans le formulaire
+        model.addAttribute("comptes", comptes);
+
+        return "virement"; // Nom du fichier HTML (sans extension)
+    }
+    @PostMapping("/versementAdd")
+    public String updateSolde(
+            @RequestParam("numeroCompte") int numeroCompte,
+            @RequestParam("montant") double montant,
+            Model model) {
+        try {
+            // Rechercher le compte correspondant
+            Optional<Compte> optionalCompte = repoCompte.findBynumeroCompte(numeroCompte);
+
+            if (optionalCompte.isPresent()) {
+                // Mise à jour du solde
+                Compte compte = optionalCompte.get();
+                compte.setSolde(compte.getSolde() + montant);
+                repoCompte.save(compte);
+
+                model.addAttribute("message", "Versement réussi ! Le compte " +
+                        compte.getNumeroCompte() + " a maintenant un solde de " + compte.getSolde());
+            } else {
+                model.addAttribute("message", "Erreur : Compte non trouvé.");
+            }
+        } catch (RuntimeException e) {
+            model.addAttribute("message", "Une erreur est survenue : " + e.getMessage());
+        }
+
+        return "redirect:/compte/all"; // Fichier Thymeleaf pour afficher le résultat
+    }
+
+
 }

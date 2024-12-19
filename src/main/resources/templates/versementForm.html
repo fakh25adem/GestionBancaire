@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effectuer un Versement</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-3" style="height: 100vh;">
+            <div class="position-sticky">
+                <h4 class="text-center mb-4">Menu</h4>
+                <!-- User Menu -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        User
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="../user/save">Ajouter User</a></li>
+                        <li><a class="dropdown-item" href="../user/all">Liste User</a></li>
+                    </ul>
+                </div>
+<br>
+                <!-- Compte Menu -->
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="compteDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Compte
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="compteDropdown">
+                        <li><a class="dropdown-item" href="./all">Liste Compte</a></li>
+                        <li><a class="dropdown-item" href="./versementForm">Versement </a></li>
+                        <li><a class="dropdown-item" href="./virementForm">Virement </a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="mt-5">
+                <h4 class="mb-4">Effectuer un Versement</h4>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/compte/versementAdd" method="post">
+                            <div class="mb-3">
+                                <label for="numeroCompte" class="form-label">Sélectionner un Compte :</label>
+                                <select class="form-select" id="numeroCompte" name="numeroCompte" required>
+                                    <option value="" disabled selected>-- Choisissez un compte --</option>
+                                    <!-- Iteration sur la liste des comptes avec Thymeleaf -->
+                                    <option th:each="compte : ${comptes}"
+                                            th:value="${compte.numeroCompte}"
+                                            th:text="'Compte ' + ${compte.numeroCompte}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="montant" class="form-label">Montant :</label>
+                                <input type="number" class="form-control" id="montant" name="montant" step="0.01" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
