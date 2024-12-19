@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/Historique")
+@RequestMapping("/API/Historique")
 public class HistoriqueController {
     @Autowired
     HistoriqueService historiqueService;
