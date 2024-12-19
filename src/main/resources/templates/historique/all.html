@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <title>All Historiques</title>
 </head>
 <body>
-$END$
+<h1>All Historiques</h1>
+<p th:text="${message}"></p>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="historique : ${listHistoriques}">
+        <td th:text="${historique.id_historique}"></td>
+        <td th:text="${historique.montant}"></td>
+        <td th:text="${historique.dateTransaction}"></td>
+
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

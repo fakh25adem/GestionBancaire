@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Historique by ID</title>
 </head>
 <body>
-$END$
+<h1>Historique by ID</h1>
+<p th:text="${message}"></p>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Description</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="historique : ${data}">
+    <td th:text="${historique.id}"></td>
+    <td th:text="${historique.description}"></td>
+    <td th:text="${historique.date}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html> <title>Historique by ID</title>
+</head>
+<body>
+<h1>Historique by ID</h1>
+<p th:text="${message}"></p>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Description</th>
+    <th>Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="historique : ${data}">
+    <td th:text="${historique.id}"></td>
+    <td th:text="${historique.description}"></td>
+    <td th:text="${historique.date}"></td>
+  </tr>
+  </tbody>
+</table>
 </body>
 </html>

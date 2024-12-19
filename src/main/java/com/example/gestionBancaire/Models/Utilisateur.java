@@ -1,6 +1,7 @@
 package com.example.gestionBancaire.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,7 @@ public class Utilisateur {
     private String password;
     @Column (name = "phoneNumber")
     private String phoneNumber;
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
