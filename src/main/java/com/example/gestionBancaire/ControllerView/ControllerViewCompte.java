@@ -76,7 +76,7 @@ public class ControllerViewCompte {
             model.addAttribute("message", "Une erreur est survenue : " + e.getMessage());
         }
 
-        return "redirect:/compte/all"; // Redirection vers la liste des comptes ou une vue appropriée
+        return "redirect:/MVC/Historique/All"; // Redirection vers la liste des comptes ou une vue appropriée
     }
 
     @GetMapping("/virementForm")
@@ -114,7 +114,7 @@ public class ControllerViewCompte {
             model.addAttribute("message", "Une erreur est survenue : " + e.getMessage());
         }
 
-        return "redirect:/compte/all"; // Fichier Thymeleaf pour afficher le résultat
+        return "redirect:/MVC/Historique/All"; // Fichier Thymeleaf pour afficher le résultat
     }
 
 

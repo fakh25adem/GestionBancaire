@@ -6,6 +6,110 @@
     <title>Liste des Historiques</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: #343a40;
+            color: black;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar h4 {
+            color: #0b3275;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-link {
+            color: #000000;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-link:hover {
+            background-color: #0b3275;
+            color: #ffffff;
+            border-radius: 10px;
+        }
+
+        /* Contenu principal */
+        .main-container {
+            margin-left: 250px;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+
+            font-weight: bold;
+            color: #0b3275;
+        }
+
+        .card-body {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        /* Tableau */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table thead th {
+            background-color: #343a40;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table tbody td {
+            padding: 12px;
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #0b3275;
+            border: none;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+            color: #fff;
+        }
+
+        h2 {
+            text-align: center;
+            color: #6c757d;
+        }
+        .dropdown-menu .dropdown-item:hover,
+        .dropdown-menu .dropdown-item:focus {
+            background-color: #0b3275 !important;
+            color: #ffffff !important;
+        }
+
+        /* Couleur normale des items */
+        .dropdown-menu .dropdown-item {
+            color: #343a40;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -35,7 +139,7 @@
                     </ul>
                 </div>
                 <br/>
-                <a class="nav-link" th:href="@{/historique/all}">Liste Historiques</a>
+                <a class="nav-link" th:href="@{/MVC/Historique/All}">Liste Historiques</a>
             </div>
         </nav>
 
@@ -45,8 +149,8 @@
             <div class="card">
                 <div class="card-body">
                     <p class="text-center text-success" th:text="${message}"></p>
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-dark">
+                    <table class="table table-striped table-responsive-md">
+                        <thead class="">
                         <tr>
                             <th>ID</th>
                             <th>Description</th>
