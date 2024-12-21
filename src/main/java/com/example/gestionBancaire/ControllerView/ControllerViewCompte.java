@@ -1,13 +1,16 @@
 package com.example.gestionBancaire.ControllerView;
 
 import com.example.gestionBancaire.Models.Compte;
+import com.example.gestionBancaire.Models.Historique;
 import com.example.gestionBancaire.Reposotiry.RepoCompte;
+import com.example.gestionBancaire.Reposotiry.RepoHistorique;
 import com.example.gestionBancaire.Services.CompteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
 public class ControllerViewCompte {
     @Autowired
     private RepoCompte repoCompte;
+    @Autowired
+    private RepoHistorique repoHistorique;
     @Autowired
     private CompteService CompteService;
     @GetMapping( "/all" )
@@ -56,13 +61,18 @@ public class ControllerViewCompte {
                 Compte compteSource = optionalCompteSource.get();
                 Compte compteDestination = optionalCompteDestination.get();
 
-                // Vérification que le solde du compte source est suffisant
-                if (compteSource.getSolde() >= montant) {
-                    // Mise à jour des soldes
+                if (compteSource.getSolde() >= montant) {// Mise à jour des soldes
                     compteSource.setSolde(compteSource.getSolde() - montant);
                     compteDestination.setSolde(compteDestination.getSolde() + montant);
-
-                    // Sauvegarder les modifications
+                    Historique historique = new Historique();
+                    historique.setMontant(montant);
+                    historique.setDateTransaction(new Date()); // Date actuelle
+                    historique.setTypeTransaction("Virrement");
+                    historique.setEmetteur(compteSource.getUtilisateur());
+                    historique.setRecepteur(compteDestination.getUtilisateur());
+                    historique.setRecepteur_compte(compteDestination);
+                    historique.setEmetteur_compte(compteDestination);
+                    repoHistorique.save(historique);
                     repoCompte.save(compteSource);
                     repoCompte.save(compteDestination);
 
@@ -104,6 +114,14 @@ public class ControllerViewCompte {
                 Compte compte = optionalCompte.get();
                 compte.setSolde(compte.getSolde() + montant);
                 repoCompte.save(compte);
+                Historique historique = new Historique();
+                historique.setMontant(montant);
+                historique.setDateTransaction(new Date()); // Date actuelle
+                historique.setTypeTransaction("Versement");
+                historique.setRecepteur_compte(compte);
+                historique.setEmetteur(compte.getUtilisateur());
+                repoHistorique.save(historique);
+
 
                 model.addAttribute("message", "Versement réussi ! Le compte " +
                         compte.getNumeroCompte() + " a maintenant un solde de " + compte.getSolde());
