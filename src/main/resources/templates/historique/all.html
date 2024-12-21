@@ -159,18 +159,21 @@
                         <tr>
                             <th>Date Transaction</th>
                             <th>Type Transaction</th>
-                            <th>Recepteur</th>
-                            <th>Emetteur</th>
                             <th>Montant</th>
+                            <th>Emetteur</th>
+                            <th>Recepteur</th>
+
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="historique : ${listHistoriques}">
                             <td th:text="${historique.dateTransaction}"></td>
                             <td th:text="${historique.typeTransaction}"></td>
-                            <td th:text="${historique.recepteur}"></td>
-                            <td th:text="${historique.emetteur}"></td>
                             <td th:text="${historique.montant}"></td>
+
+                            <td th:text="${historique?.getEmetteur()?.getNom()}"></td>
+                            <td th:text="${historique?.getRecepteur()?.getNom()}"></td>
+
                         </tr>
                         </tbody>
                     </table>
