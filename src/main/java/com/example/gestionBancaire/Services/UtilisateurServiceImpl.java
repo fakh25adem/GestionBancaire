@@ -63,7 +63,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         System.out.println("modifier");
         Optional<Utilisateur> utilisateurById = repoUtilisateur.findById(iduser);
 
-        if (iduser != 1) {
+
             if (utilisateurById.isPresent() && iduser == utilisateurById.get().getId_user()) {
                 Utilisateur utilisateurToUpdate = utilisateurById.get();
                 utilisateurToUpdate.setNom(utilisateur.getNom());
@@ -71,11 +71,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
                 utilisateurToUpdate.setPhoneNumber(utilisateur.getPhoneNumber());
                 repoUtilisateur.save(utilisateurToUpdate);
 
-            } else {
-                System.out.println("client introuvable");
-                return null;
             }
-        }
         else {
             if (utilisateurById.isPresent()) {
                 Utilisateur utilisateurToUpdate = utilisateurById.get();
