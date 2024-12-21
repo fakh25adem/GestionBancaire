@@ -84,29 +84,32 @@ public class ControllerViewUtilisateur {
     }
 
     // Route pour afficher la page de mise à jour d'utilisateur
-    @GetMapping("/editUtilisateur/{iduser}")
+    @GetMapping("/edit/{iduser}")
     public String afficherUpdateUtilisateur(@PathVariable Integer iduser, Model model) {
-        model.addAttribute("iduser", iduser);
+        Optional<Utilisateur> utilisateur = repoUtilisateur.findById(iduser);
+
+        // Ajouter l'utilisateur au modèle
+        model.addAttribute("utilisateur", utilisateur);
         return "updateUtilisateur"; // Nom du template pour la mise à jour d'utilisateur
     }
 
-    // Route pour traiter la mise à jour d'un utilisateur
     @PostMapping("/editUtilisateur/{iduser}")
     public String updateUtilisateur(@PathVariable Integer iduser, @ModelAttribute Utilisateur utilisateur, Model model) {
         try {
             Utilisateur updatedUtilisateur = utilisateurService.modifierUtilisateur(iduser, utilisateur);
 
             if (updatedUtilisateur != null) {
-                model.addAttribute("message", "Mise à jour de l'utilisateur réussie !");
-                model.addAttribute("utilisateur", updatedUtilisateur);
+                model.addAttribute("message", "Mise à jour réussie !");
+                return "redirect:/user/all"; // Redirige vers la page de liste des utilisateurs
             }
-            return "AllUser"; // Nom du template Thymeleaf pour afficher le résultat
         } catch (Exception e) {
-            System.out.println("Une erreur s'est produite : " + e.getMessage());
-            model.addAttribute("message", "Une erreur s'est produite lors de la mise à jour de l'utilisateur.");
-            return "AllUser"; // Retourne à la page de résultat avec le message d'erreur
+            System.out.println("Erreur : " + e.getMessage());
         }
+        model.addAttribute("message", "Une erreur s'est produite.");
+        return "redirect:/user/all"; // Redirige vers la liste des utilisateurs avec un message d'erreur
     }
+
+
 
 }
 
